@@ -4,6 +4,19 @@
   </h1>
   <p *ngIf="errorMessage" style="color: red; font-weight: bold;">{{ errorMessage }}</p>
 
+  <div style="margin-bottom: 20px;">
+    <button (click)="showAllPanels()" 
+            [style.background-color]="!showingInternetPanels ? '#007bff' : '#6c757d'" 
+            style="color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+      Mostrar Todos os Painéis
+    </button>
+    <button (click)="showInternetPanels()" 
+            [style.background-color]="showingInternetPanels ? '#007bff' : '#6c757d'" 
+            style="color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">
+      Mostrar Painéis com Internet Ativada
+    </button>
+  </div>
+
   <div *ngIf="sabiaPaineis.length > 0">
     <h2>Painéis do SABIA:</h2>
     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin-top: 20px;">
@@ -13,7 +26,7 @@
         <h3 style="margin-top: 0; color: #333; font-size: 1.4em;">{{ painel.title }}</h3>
         
         <div *ngIf="painel.image" style="text-align: center; margin-bottom: 15px;">
-          <img [src]="'https://pb.staging.tre-se.gov.br/api/files/' + painel.collectionId + '/' + painel.id + '/' + painel.image" 
+          <img [src]="'http://localhost:3001/api/files/' + painel.collectionId + '/' + painel.id + '/' + painel.image" 
                alt="{{ painel.title }}" 
                style="max-width: 100%; height: auto; border-radius: 5px; object-fit: cover;">
         </div>
@@ -26,11 +39,13 @@
         </p>
 
         <div style="font-size: 0.9em; color: #777; margin-top: 15px; border-top: 1px dashed #eee; padding-top: 15px;">
-          <p><strong>Coleção:</strong> {{ painel.collectionName }} (ID: {{ painel.collectionId }})</p>
-          <p><strong>ID do Registro:</strong> {{ painel.id }}</p>
-          <p><strong>Embeddable:</strong> {{ painel.embedded ? 'Sim' : 'Não' }}</p>
+          <p><strong>Acesso Internet:</strong> 
+            <span [style.color]="painel.internet ? 'green' : 'red'">
+              {{ painel.internet ? 'Sim' : 'Não' }}
+            </span>
+          </p>
           <p><strong>Autenticação Necessária:</strong> {{ painel.authentication ? 'Sim' : 'Não' }}</p>
-          <p><strong>Acesso Internet:</strong> {{ painel.internet ? 'Sim' : 'Não' }}</p>
+          <p><strong>Embutível:</strong> {{ painel.embedded ? 'Sim' : 'Não' }}</p>
         </div>
       </div>
     </div>

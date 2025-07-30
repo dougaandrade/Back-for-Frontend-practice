@@ -1,31 +1,73 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DataService } from './services/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  title = 'Sabia';
-  sabiaPaineis: any[] = []; 
+export class AppComponent implements OnInit, OnDestroy {
+  title = 'my-angular-app';
+  sabiaPaineis: any[] = [];
   errorMessage: string = '';
+  showingInternetPanels: boolean = false;
+  private queryParamsSubscription: Subscription | undefined;
 
-  constructor(private dataService: DataService) { }
+  constructor(
+    private dataService: DataService,
+    private activatedRoute: ActivatedRoute, 
+    private router: Router
+  ) { }
 
   ngOnInit() {
-    this.dataService.getRecords().subscribe({
+    this.queryParamsSubscription = this.activatedRoute.queryParams.subscribe(params => {
+      const internetParam = params['internet'];
+      this.showingInternetPanels = internetParam === 'true'; 
+      this.loadPanels(this.showingInternetPanels ? true : undefined); 
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.queryParamsSubscription) {
+      this.queryParamsSubscription.unsubscribe();
+    }
+  }
+
+  loadPanels(onlyInternet?: boolean) {
+    this.errorMessage = '';
+    this.sabiaPaineis = [];
+
+    this.dataService.getSabiaPaineis(onlyInternet).subscribe({
       next: (data) => {
         this.sabiaPaineis = data;
       },
-      error: (error) => {
-        console.error('Erro ao buscar registros do PocketBase:', error);
-        this.errorMessage = 'Não foi possível carregar os painéis. Verifique se o BFF está rodando e conectado ao PocketBase.';
+      error: (err) => {
+        console.error('Erro ao carregar painéis:', err);
+        this.errorMessage = 'Não foi possível carregar os painéis. Verifique a conexão do BFF com o PocketBase.';
       }
+    });
+  }
+
+  showAllPanels() {
+
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { internet: null },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  showInternetPanels() {
+
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { internet: true },
+      queryParamsHandling: 'merge'
     });
   }
 }

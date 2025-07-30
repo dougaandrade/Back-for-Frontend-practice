@@ -1,40 +1,42 @@
-import PocketBase from 'pocketbase';
+import { getPocketBaseInstance } from '../utils/pocketbase'; // Importe a função
 
 export default defineEventHandler(async (event) => {
-
-  const config = useRuntimeConfig(event);
-  const pocketbaseUrl = config.pocketBaseUrl;
-  console.log(`Conectando ao PocketBase em: ${pocketbaseUrl}`);
   const collectionName = 'sabia_paineis';
 
   try {
-      const pocketbaseUrl = config.pocketBaseUrl;
-      const pocketBaseEmail = config.pocketBaseEmail;
-      const pocketBasePassword = config.pocketBasePassword;
-    const pb = new PocketBase(pocketbaseUrl);
+    const pb = await getPocketBaseInstance(); 
 
-    await pb.collection('_superusers').authWithPassword(
-      pocketBaseEmail,
-      pocketBasePassword,
-    );
-    
-    const resultList = await pb.collection('sabia_paineis').getList(1, 7, {
-        sort : '-id',
-    });
-    return resultList;
-  } catch (error) {
-    console.error(`Erro ao conectar ao PocketBase ou buscar registros da coleção '${collectionName}':`, error);
+    const query = getQuery(event);
+    let filterString = '';
 
-    if (error instanceof Error) {
-        throw createError({
-            statusCode: 500,
-            statusMessage: `Erro interno no servidor ao acessar o PocketBase: ${error.message}`,
-        });
-    } else {
-        throw createError({
-            statusCode: 500,
-            statusMessage: 'Ocorreu um erro desconhecido ao acessar o PocketBase.',
-        });
+    if (query.internet !== undefined) {
+      const internetValue = String(query.internet).toLowerCase();
+      if (internetValue === 'true') {
+        filterString = 'internet = true';
+      } else if (internetValue === 'false') {
+        filterString = 'internet = false';
+      }
     }
+
+    const resultList = await pb.collection(collectionName).getList(1, 7, {
+      sort: '-id',
+      filter: filterString,
+    });
+
+    return resultList;
+  } catch (error: any) {
+    console.error(`Erro no BFF ao buscar registros da coleção '${collectionName}':`, error);
+
+    if (error.message.includes('Configuração do PocketBase incompleta')) {
+       throw createError({ statusCode: 500, statusMessage: error.message });
+    }
+    if (error.message.includes('Erro na autenticação')) {
+      throw createError({ statusCode: 401, statusMessage: 'Falha na autenticação com o PocketBase.' });
+    }
+
+    throw createError({
+      statusCode: 500,
+      statusMessage: `Erro interno no servidor: ${error.message || 'Ocorreu um erro desconhecido.'}`,
+    });
   }
 });
