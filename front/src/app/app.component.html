@@ -5,14 +5,12 @@
   <p *ngIf="errorMessage" style="color: red; font-weight: bold;">{{ errorMessage }}</p>
 
   <div style="margin-bottom: 20px;">
-    <button (click)="showAllPanels()" 
-            [style.background-color]="!showingInternetPanels ? '#007bff' : '#6c757d'" 
-            style="color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+    <button (click)="showAllPanels()" [style.background-color]="!showingInternetPanels ? '#007bff' : '#6c757d'"
+      style="color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
       Mostrar Todos os Painéis
     </button>
-    <button (click)="showInternetPanels()" 
-            [style.background-color]="showingInternetPanels ? '#007bff' : '#6c757d'" 
-            style="color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">
+    <button (click)="showInternetPanels()" [style.background-color]="showingInternetPanels ? '#007bff' : '#6c757d'"
+      style="color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">
       Mostrar Painéis com Internet Ativada
     </button>
   </div>
@@ -20,26 +18,25 @@
   <div *ngIf="sabiaPaineis.length > 0">
     <h2>Painéis do SABIA:</h2>
     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin-top: 20px;">
-      <div *ngFor="let painel of sabiaPaineis" 
-           style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; width: 320px; text-align: left; box-shadow: 0 4px 10px rgba(0,0,0,0.05); background-color: #fff;">
-        
+      <div *ngFor="let painel of sabiaPaineis"
+        style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; width: 320px; text-align: left; box-shadow: 0 4px 10px rgba(0,0,0,0.05); background-color: #fff;">
+
         <h3 style="margin-top: 0; color: #333; font-size: 1.4em;">{{ painel.title }}</h3>
-        
+
         <div *ngIf="painel.image" style="text-align: center; margin-bottom: 15px;">
-          <img [src]="'http://localhost:3001/api/files/' + painel.collectionId + '/' + painel.id + '/' + painel.image" 
-               alt="{{ painel.title }}" 
-               style="max-width: 100%; height: auto; border-radius: 5px; object-fit: cover;">
+          <img [src]="'http://localhost:3000/api/files/' + painel.collectionId + '/' + painel.id + '/' + painel.image"
+            alt="{{ painel.title }}" style="max-width: 100%; height: auto; border-radius: 5px; object-fit: cover;">
         </div>
 
         <p style="color: #555; line-height: 1.6;">{{ painel.description }}</p>
-        
+
         <p *ngIf="painel.link">
-          <strong>Link:</strong> 
+          <strong>Link:</strong>
           <a [href]="painel.link" target="_blank" style="color: #007bff; text-decoration: none;">Acessar Painel</a>
         </p>
 
         <div style="font-size: 0.9em; color: #777; margin-top: 15px; border-top: 1px dashed #eee; padding-top: 15px;">
-          <p><strong>Acesso Internet:</strong> 
+          <p><strong>Acesso Internet:</strong>
             <span [style.color]="painel.internet ? 'green' : 'red'">
               {{ painel.internet ? 'Sim' : 'Não' }}
             </span>

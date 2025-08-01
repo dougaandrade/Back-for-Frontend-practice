@@ -1,42 +1,45 @@
-import { getPocketBaseInstance } from '../utils/pocketbase'; // Importe a função
+import { getPocketBaseInstance } from "../utils/pocketbase"; // Importe a função
 
 export default defineEventHandler(async (event) => {
-  const collectionName = 'sabia_paineis';
+  const collectionName = "sabia_paineis";
 
   try {
-    const pb = await getPocketBaseInstance(); 
+    const pb = await getPocketBaseInstance();
 
     const query = getQuery(event);
-    let filterString = '';
+    let filterString = "";
 
     if (query.internet !== undefined) {
-      const internetValue = String(query.internet).toLowerCase();
-      if (internetValue === 'true') {
-        filterString = 'internet = true';
-      } else if (internetValue === 'false') {
-        filterString = 'internet = false';
-      }
+      filterString = `internet = ${
+        typeof query.internet === "boolean"
+          ? query.internet
+          : typeof query.internet === "string"
+          ? query.internet.toLowerCase()
+          : ""
+      }`;
     }
 
     const resultList = await pb.collection(collectionName).getList(1, 7, {
-      sort: '-id',
+      sort: "-id",
       filter: filterString,
     });
 
     return resultList;
   } catch (error: any) {
-    console.error(`Erro no BFF ao buscar registros da coleção '${collectionName}':`, error);
-
-    if (error.message.includes('Configuração do PocketBase incompleta')) {
-       throw createError({ statusCode: 500, statusMessage: error.message });
+    if (error.message.includes("Configuração do PocketBase incompleta")) {
+      throw createError({ statusCode: 500, statusMessage: error.message });
     }
-    if (error.message.includes('Erro na autenticação')) {
-      throw createError({ statusCode: 401, statusMessage: 'Falha na autenticação com o PocketBase.' });
+    if (error.message.includes("Erro na autenticação")) {
+      throw createError({
+        statusCode: 401,
+        message: "Credenciais de autenticação inválidas.",
+      });
     }
 
     throw createError({
       statusCode: 500,
-      statusMessage: `Erro interno no servidor: ${error.message || 'Ocorreu um erro desconhecido.'}`,
+
+      message: `Erro ao buscar registros da coleção '${collectionName}': ${error.message}`,
     });
   }
 });
