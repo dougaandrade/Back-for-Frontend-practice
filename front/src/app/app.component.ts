@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'my-angular-app';
+  title = 'Painéis Sabia';
 
   sabiaPaineis: any[] = [];
   errorMessage: string = '';
