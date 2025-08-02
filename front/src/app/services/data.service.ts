@@ -2,14 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http'; // Importe HttpParams
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-interface PocketBasePaginatedResponse {
-  page: number;
-  perPage: number;
-  totalPages: number;
-  totalItems: number;
-  items: any[];
-}
+import { PocketBasePaginatedResponse } from '../interfaces/PocketBasePaginated.interface';
 
 @Injectable({
   providedIn: 'root',
