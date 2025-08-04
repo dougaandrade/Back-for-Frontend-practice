@@ -3,8 +3,10 @@ import {
   Component,
   EventEmitter,
   inject,
+  input,
   Input,
   OnChanges,
+  output,
   Output,
   SimpleChanges,
 } from '@angular/core';
@@ -19,7 +21,7 @@ import { debounceTime, Subject } from 'rxjs';
   styleUrl: './card-component.css',
 })
 export class CardComponent implements OnChanges {
-  @Output() PanelsLoaded = new EventEmitter<boolean>();
+  protected readonly PanelsLoaded = output<boolean>();
   @Input() showinginternetpanels: boolean = false;
 
   loading: boolean = false;
@@ -30,7 +32,7 @@ export class CardComponent implements OnChanges {
   private readonly dataService = inject(DataService);
 
   constructor() {
-    this.$triggerTime.pipe(debounceTime(500)).subscribe((onlyInternet) => {
+    this.$triggerTime.pipe(debounceTime(1000)).subscribe((onlyInternet) => {
       this.loadPanels(onlyInternet);
     });
     this.loadPanels();
@@ -53,8 +55,7 @@ export class CardComponent implements OnChanges {
         this.PanelsLoaded.emit(!!onlyInternet);
         this.loading = false;
       },
-      error: (err) => {
-        console.error('Erro ao carregar painéis:', err);
+      error: () => {
         this.errorMessage =
           'Não foi possível carregar os painéis. Verifique a conexão do BFF com o PocketBase.';
         this.loading = false;
