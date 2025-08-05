@@ -4,16 +4,23 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CardComponent } from './components/card-component/card-component';
 import { ButtonComponent } from './components/button-component/button.component';
+import { SearchComponent } from './components/search-component/search.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, CardComponent, ButtonComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    CardComponent,
+    ButtonComponent,
+    SearchComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-
+  title = 'my-angular-app';
   errorMessage: string = '';
   showingInternetPanels: boolean = false;
   private queryParamsSubscription: Subscription | undefined;
@@ -27,11 +34,13 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     );
   }
+
   ngOnDestroy(): void {
     if (this.queryParamsSubscription) {
       this.queryParamsSubscription.unsubscribe();
     }
   }
+
   PainelLoader(onlyInternet: boolean) {
     this.showingInternetPanels = onlyInternet;
   }

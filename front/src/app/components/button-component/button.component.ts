@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { SearchComponent } from '../search-component/search.component';
 
 @Component({
   selector: 'card-button',
@@ -11,6 +12,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 export class ButtonComponent {
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
+
   showAllPanels() {
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
