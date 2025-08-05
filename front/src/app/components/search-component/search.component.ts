@@ -1,24 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'card-search',
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css',
 })
 export class SearchComponent {
-  searchQuery: string = '';
+  searchTerm: string = '';
 
-  async onSearch() {
-    if (
-      this.searchQuery.trim() === '' ||
-      this.searchQuery.trim().length === 0
-    ) {
-      // Handle empty search query if needed
-      return;
-    }
+  @Output() search = new EventEmitter<string>();
+
+  onSearchChange() {
+    this.search.emit(this.searchTerm);
   }
 }

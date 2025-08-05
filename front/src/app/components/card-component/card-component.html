@@ -6,12 +6,15 @@
 <p class="error-message">{{ errorMessage }}</p>
 }
 
+<input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" placeholder="Buscar painel..." />
+
 @if (sabiaPaineis.length > 0) {
 <div>
   <div class="panels-list">
-    @for (painel of sabiaPaineis; track painel.id) {
+    @for (painel of filteredPaineis; track painel.id) {
     <div class="panel-card">
       <h3>{{ painel.title }}</h3>
+
 
       <div class="panel-image">
         @if (painel.image) {

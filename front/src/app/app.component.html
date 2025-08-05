@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <div class="container">
-  <card-search />
   <card-button />
+  <card-search (search)="onSearch($event)" />
+
+
   <card-component (PanelsLoaded)="PainelLoader($event)" [showinginternetpanels]="showingInternetPanels" />
 </div>

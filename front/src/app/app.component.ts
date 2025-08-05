@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { CardComponent } from './components/card-component/card-component';
 import { ButtonComponent } from './components/button-component/button.component';
 import { SearchComponent } from './components/search-component/search.component';
+import { DataService } from './services/data.service';
 
 @Component({
   selector: 'app-root',
@@ -20,10 +21,12 @@ import { SearchComponent } from './components/search-component/search.component'
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'my-angular-app';
   errorMessage: string = '';
   showingInternetPanels: boolean = false;
   private queryParamsSubscription: Subscription | undefined;
+  sabiaPaineis: any[] = [];
+  filteredPaineis: any[] = [];
+
   private readonly activatedRoute = inject(ActivatedRoute);
 
   ngOnInit() {
@@ -39,6 +42,13 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.queryParamsSubscription) {
       this.queryParamsSubscription.unsubscribe();
     }
+  }
+
+  onSearch(term: string) {
+    const lowerTerm = term.toLowerCase();
+    this.filteredPaineis = this.sabiaPaineis.filter((painel) =>
+      painel.title?.toLowerCase().includes(lowerTerm)
+    );
   }
 
   PainelLoader(onlyInternet: boolean) {

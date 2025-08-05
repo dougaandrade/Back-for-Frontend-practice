@@ -1,3 +1,4 @@
 <div class="container">
-  <input class="input" type="text" [(ngModel)]="searchQuery" placeholder="Buscar painéis..." />
+  <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" placeholder="Buscar painel..."
+    class="input" />
 </div>

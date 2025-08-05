@@ -1,41 +1,44 @@
-import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  inject,
-  input,
-  Input,
-  OnChanges,
-  output,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { DataService } from '../../services/data.service';
 import { debounceTime, Subject } from 'rxjs';
+import {
+  inject,
+  Input,
+  OnChanges,
+  Output,
+  EventEmitter,
+  Component,
+  SimpleChanges,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'card-component',
-  imports: [CommonModule, RouterModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './card-component.html',
   styleUrl: './card-component.css',
 })
 export class CardComponent implements OnChanges {
-  protected readonly PanelsLoaded = output<boolean>();
+  @Output() PanelsLoaded = new EventEmitter<boolean>();
   @Input() showinginternetpanels: boolean = false;
+  @Output() search = new EventEmitter<string>();
 
   loading: boolean = false;
   errorMessage: string = '';
   sabiaPaineis: any[] = [];
+  filteredPaineis: any[] = [];
+
+  searchTerm: string = '';
 
   private readonly $triggerTime = new Subject<boolean>();
   private readonly dataService = inject(DataService);
 
   constructor() {
-    this.$triggerTime.pipe(debounceTime(1000)).subscribe((onlyInternet) => {
-      this.loadPanels(onlyInternet);
-    });
-    this.loadPanels();
+    this.$triggerTime
+      .pipe(debounceTime(400))
+      .subscribe((onlyInternet) => this.loadPanels(onlyInternet));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -45,6 +48,7 @@ export class CardComponent implements OnChanges {
       this.$triggerTime.next(this.showinginternetpanels);
     }
   }
+
   loadPanels(onlyInternet?: boolean) {
     this.errorMessage = '';
     this.sabiaPaineis = [];
@@ -52,6 +56,7 @@ export class CardComponent implements OnChanges {
     this.dataService.getSabiaPaineis(onlyInternet).subscribe({
       next: (data) => {
         this.sabiaPaineis = data;
+        this.filteredPaineis = data;
         this.PanelsLoaded.emit(!!onlyInternet);
         this.loading = false;
       },
@@ -61,5 +66,12 @@ export class CardComponent implements OnChanges {
         this.loading = false;
       },
     });
+  }
+
+  onSearchChange() {
+    const term = this.searchTerm.toLowerCase();
+    this.filteredPaineis = this.sabiaPaineis.filter((painel) =>
+      painel.title?.toLowerCase().includes(term)
+    );
   }
 }
