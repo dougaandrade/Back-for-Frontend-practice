@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './card-component.html',
-  styleUrl: './card-component.css',
+  styleUrls: ['./card-component.css'],
 })
 export class CardComponent implements OnChanges {
   @Output() panelsLoaded = new EventEmitter<boolean>();
@@ -36,6 +36,7 @@ export class CardComponent implements OnChanges {
     this.$triggerTime.pipe(debounceTime(400)).subscribe((onlyInternet) => {
       this.loadPanels(onlyInternet);
     });
+    this.loadPanels();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

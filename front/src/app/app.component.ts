@@ -21,7 +21,7 @@ import { DataService } from './services/data.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private queryParamsSubscription: Subscription | undefined;
+  queryParamsSubscription: Subscription | undefined;
   sabiaPaineis: any[] = [];
   filteredPaineis: any[] = [];
 
@@ -37,13 +37,12 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     );
   }
+  ngOnDestroy() {
+    this.queryParamsSubscription?.unsubscribe();
+  }
 
   onSearchResult(paineis: any[]) {
     this.filteredPaineis = paineis;
-  }
-
-  ngOnDestroy() {
-    this.queryParamsSubscription?.unsubscribe();
   }
 
   painelLoader(onlyInternet: boolean) {

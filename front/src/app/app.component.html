@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <div class="container">
   <card-search (search)="onSearchResult($event)" />
-  <card-button></card-button>
+  <card-button />
   <card-component
     (panelsLoaded)="painelLoader($event)"
     [filteredPaineis]="filteredPaineis"
