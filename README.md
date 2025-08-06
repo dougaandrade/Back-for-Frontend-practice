@@ -1,4 +1,3 @@
-
 # 🧪 Projeto de Prática: Backend-for-Frontend (BFF) com Angular + Nitro + PocketBase
 
 Este repositório demonstra a aplicação do padrão **Backend-for-Frontend (BFF)** em um cenário prático, usando:
@@ -14,6 +13,7 @@ Este repositório demonstra a aplicação do padrão **Backend-for-Frontend (BFF
 ## 📁 Estrutura do Projeto
 
 ### Back-for-Frontend-practice/
+
 <br>
 ├── frontend-angular      # Aplicação Angular (interface do usuário)
 <br>
@@ -35,41 +35,46 @@ cd Back-for-Frontend-practice
 2. Instale as dependências
 
 # Instalar dependências do Angular
+
 cd frontend-angular
 npm install
 
 # Instalar dependências do BFF
+
 cd ../bff-nitro
 npm install
 
 3. Inicie os serviços
 
 # Iniciar PocketBase
+
 npx pocketbase serve --dir ../pb_data
 
 # Em outro terminal: iniciar o BFF
+
 cd bff-nitro
 npm run dev
 
 # Em outro terminal: iniciar o frontend Angular
+
 cd ../frontend-angular
 npm run start
 
 4. Acesse no navegador
 
-Frontend:     http://localhost:4200
-BFF (Nitro):  http://localhost:3000
+Frontend: http://localhost:4200
+BFF (Nitro): http://localhost:3000
 
 ---
 
 ## ⚙️ Tecnologias Utilizadas
 
-Camada        | Tecnologia         
---------------|--------------------
-Frontend      | Angular 17         
-BFF           | Nitro (Nitro Server)
-Banco de dados| PocketBase         
-Comunicação   | HTTP/REST via BFF  
+| Camada         | Tecnologia           |
+| -------------- | -------------------- |
+| Frontend       | Angular 17           |
+| BFF            | Nitro (Nitro Server) |
+| Banco de dados | PocketBase           |
+| Comunicação    | HTTP/REST via BFF    |
 
 ---
 
@@ -94,11 +99,11 @@ Comunicação   | HTTP/REST via BFF
 
 ## 📂 Principais arquivos
 
-Local                                | Descrição
--------------------------------------|-----------
-frontend-angular/src/app/services    | Serviços para consumir dados do BFF
-bff-nitro/server/api                 | Rotas que o BFF expõe para o frontend
-db.json                              | Dados base da aplicação
+| Local                             | Descrição                             |
+| --------------------------------- | ------------------------------------- |
+| frontend-angular/src/app/services | Serviços para consumir dados do BFF   |
+| bff-nitro/server/api              | Rotas que o BFF expõe para o frontend |
+| db.json                           | Dados base da aplicação               |
 
 ---
 
