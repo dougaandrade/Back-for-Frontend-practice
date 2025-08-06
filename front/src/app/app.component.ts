@@ -21,13 +21,19 @@ import { DataService } from './services/data.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
+<<<<<<< Updated upstream
   errorMessage: string = '';
   showingInternetPanels: boolean = false;
+=======
+>>>>>>> Stashed changes
   private queryParamsSubscription: Subscription | undefined;
   sabiaPaineis: any[] = [];
   filteredPaineis: any[] = [];
 
   private readonly activatedRoute = inject(ActivatedRoute);
+
+  filteredPaineis: any[] = [];
+  showingInternetPanels: boolean = false;
 
   ngOnInit() {
     this.queryParamsSubscription = this.activatedRoute.queryParams.subscribe(
@@ -38,12 +44,11 @@ export class AppComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
-    if (this.queryParamsSubscription) {
-      this.queryParamsSubscription.unsubscribe();
-    }
+  onSearchResult(paineis: any[]) {
+    this.filteredPaineis = paineis;
   }
 
+<<<<<<< Updated upstream
   onSearch(term: string) {
     const lowerTerm = term.toLowerCase();
     this.filteredPaineis = this.sabiaPaineis.filter((painel) =>
@@ -52,6 +57,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   PainelLoader(onlyInternet: boolean) {
+=======
+  ngOnDestroy() {
+    this.queryParamsSubscription?.unsubscribe();
+  }
+
+  painelLoader(onlyInternet: boolean) {
+>>>>>>> Stashed changes
     this.showingInternetPanels = onlyInternet;
   }
 }

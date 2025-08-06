@@ -1,76 +1,94 @@
-h1 {
-  font-size: 2rem;
-  margin: 24px 0;
-  font-family: Arial, Helvetica, sans-serif;
+.container {
+  padding: 1rem;
+  margin: 0 auto;
+  gap: 1rem;
 }
 
-h3{
-  font-size: 1.5rem;
-  margin: 16px 0;
-  font-family: Arial, Helvetica, sans-serif;
+.loading-message,
+.error-message {
+  padding: 1rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.loading-message {
+  background-color: #e0f7fa;
+  color: #00796b;
 }
 
 .error-message {
-  color: #d32f2f;
-  background: #efd6d9;
-  padding: 8px 8px;
-  border-radius: 4px;
+  background-color: #ffebee;
+  color: #c62828;
 }
 
 .panels-list {
- display: flex;
-flex-wrap: wrap;
-  gap: 25px;
-  padding-top: 3rem;
-}
-
-.panel-image{
   width: 100%;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .panel-card {
-  background: #f5f5f5;
-  border-radius: 6px;
-  padding: 16px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  width: calc(33.333% - 1rem);
+  min-width: 300px;
+  max-width: 350px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
 }
 
-.panel-image img {
-  max-width: 100%;
-  border-radius: 4px;
-  margin-bottom: 12px;
+.panel-card:hover {
+  transform: scale(1.02);
+}
+
+.panel-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: #333;
 }
 
 .panel-description {
-  margin: 12px 0;
-  color: #333;
+  margin-bottom: 0.75rem;
+  color: #555;
+  font-size: 0.95rem;
 }
 
 .panel-link {
   color: #1976d2;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.panel-link:hover {
   text-decoration: underline;
 }
 
 .panel-details p {
-  margin: 4px 0;
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: #444;
 }
 
 .internet-yes {
-  color: #388e3c;
+  color: #2e7d32;
   font-weight: bold;
 }
 
 .internet-no {
-  color: #d32f2f;
+  color: #c62828;
   font-weight: bold;
 }
 
-.loading-message {
-  text-align: center;
-  color: #757575;
-  font-style: italic;
-  margin-top: 24px;
+.panel-image img {
+  max-width: 100%;
+  border-radius: 5px;
+  margin-bottom: 0.75rem;
+  display: block;
 }
