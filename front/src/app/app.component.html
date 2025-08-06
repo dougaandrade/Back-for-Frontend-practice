@@ -1,18 +1,10 @@
 <!DOCTYPE html>
 <div class="container">
-<<<<<<< Updated upstream
-  <card-button />
-  <card-search (search)="onSearch($event)" />
-
-
-  <card-component (PanelsLoaded)="PainelLoader($event)" [showinginternetpanels]="showingInternetPanels" />
-=======
   <card-search (search)="onSearchResult($event)" />
-  <card-button></card-button>
+  <card-button />
   <card-component
     (panelsLoaded)="painelLoader($event)"
-    [showinginternetpanels]="showingInternetPanels"
     [filteredPaineis]="filteredPaineis"
+    [showinginternetpanels]="showingInternetPanels"
   ></card-component>
->>>>>>> Stashed changes
 </div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DataService } from '../../services/data.service';
@@ -9,7 +9,7 @@ import { DataService } from '../../services/data.service';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
   @Output() search = new EventEmitter<any[]>();
   private readonly dataService = inject(DataService);
 
@@ -18,7 +18,7 @@ export class SearchComponent {
   sabiaPaineis: any[] = [];
   filteredPaineis: any[] = [];
 
-  constructor() {
+  ngOnInit(): void {
     this.dataService.getSabiaPaineis().subscribe((data) => {
       this.sabiaPaineis = data;
       this.filteredPaineis = data;
