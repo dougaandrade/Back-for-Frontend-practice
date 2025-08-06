@@ -2,9 +2,6 @@
 <div class="container">
   <card-search (search)="onSearchResult($event)" />
   <card-button />
-  <card-component
-    (panelsLoaded)="painelLoader($event)"
-    [filteredPaineis]="filteredPaineis"
-    [showinginternetpanels]="showingInternetPanels"
-  ></card-component>
+  <card-component (panelsLoaded)="painelLoader($event)" [filteredPaineis]="filteredPaineis"
+    [showinginternetpanels]="showingInternetPanels"></card-component>
 </div>

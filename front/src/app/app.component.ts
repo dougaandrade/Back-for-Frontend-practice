@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { CardComponent } from './components/card-component/card-component';
 import { ButtonComponent } from './components/button-component/button.component';
 import { SearchComponent } from './components/search-component/search.component';
-import { DataService } from './services/data.service';
 
 @Component({
   selector: 'app-root',

@@ -11,11 +11,12 @@ import {
 import { DataService } from '../../services/data.service';
 import { debounceTime, Subject } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'card-component',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './card-component.html',
   styleUrls: ['./card-component.css'],
 })

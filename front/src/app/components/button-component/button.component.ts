@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { SearchComponent } from '../search-component/search.component';
 
 @Component({
   selector: 'card-button',
