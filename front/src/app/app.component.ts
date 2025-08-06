@@ -29,6 +29,14 @@ export class AppComponent {
     this.filteredPaineis = paineis;
   }
 
+  showAllPanels() {
+    this.showingInternetPanels = false;
+  }
+
+  showInternetPanels() {
+    this.showingInternetPanels = true;
+  }
+
   painelLoader(onlyInternet: boolean) {
     this.showingInternetPanels = onlyInternet;
   }

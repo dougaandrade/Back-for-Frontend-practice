@@ -9,7 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { debounceTime, Subject } from 'rxjs';
+import { debounceTime, finalize, Subject } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
@@ -34,7 +34,7 @@ export class CardComponent implements OnChanges {
   private readonly dataService = inject(DataService);
 
   constructor() {
-    this.$triggerTime.pipe(debounceTime(500)).subscribe((onlyInternet) => {
+    this.$triggerTime.pipe(debounceTime(300)).subscribe((onlyInternet) => {
       this.loadPanels(onlyInternet);
     });
   }
@@ -45,22 +45,21 @@ export class CardComponent implements OnChanges {
       this.$triggerTime.next(this.showinginternetpanels);
     }
   }
-
-  loadPanels(onlyInternet?: boolean) {
+  loadPanels(onlyInternet?: boolean): void {
     this.errorMessage = '';
     this.loading = true;
 
-    this.dataService.getSabiaPaineis(onlyInternet).subscribe({
-      next: (data) => {
-        this.sabiaPaineis = data;
-        this.panelsLoaded.emit(!!onlyInternet);
-        this.loading = false;
-      },
-      error: () => {
-        this.errorMessage =
-          'Não foi possível carregar os painéis. Verifique a conexão do BFF com o PocketBase.';
-        this.loading = false;
-      },
-    });
+    this.dataService
+      .getSabiaPaineis(onlyInternet)
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe({
+        next: (data) => {
+          this.sabiaPaineis = data;
+          this.panelsLoaded.emit(onlyInternet);
+        },
+        error: () => {
+          this.errorMessage = 'Não foi possível carregar os painéis.';
+        },
+      });
   }
 }

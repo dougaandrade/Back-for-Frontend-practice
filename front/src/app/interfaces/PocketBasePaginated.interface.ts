@@ -5,10 +5,3 @@ export interface PocketBasePaginatedResponse {
   totalItems: number;
   items: any[];
 }
-export interface PocketBasePaginated<T> {
-  page: number;
-  perPage: number;
-  totalPages: number;
-  totalItems: number;
-  items: T[];
-}
