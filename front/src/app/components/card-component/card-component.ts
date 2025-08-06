@@ -34,20 +34,15 @@ export class CardComponent implements OnChanges {
   private readonly dataService = inject(DataService);
 
   constructor() {
-    this.$triggerTime.pipe(debounceTime(400)).subscribe((onlyInternet) => {
+    this.$triggerTime.pipe(debounceTime(500)).subscribe((onlyInternet) => {
       this.loadPanels(onlyInternet);
     });
-    this.loadPanels();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['showinginternetpanels']) {
       this.loading = true;
       this.$triggerTime.next(this.showinginternetpanels);
-    }
-
-    if (changes['filteredPaineis']) {
-      this.sabiaPaineis = changes['filteredPaineis'].currentValue || [];
     }
   }
 

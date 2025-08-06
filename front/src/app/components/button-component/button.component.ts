@@ -15,7 +15,7 @@ export class ButtonComponent {
   showAllPanels() {
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
-      queryParams: { internet: null },
+      queryParams: { internet: undefined },
       queryParamsHandling: 'merge',
     });
   }
