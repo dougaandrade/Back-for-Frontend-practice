@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 
-<<<<<<< Updated upstream
-<input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" placeholder="Buscar painel..." />
-
-@if (sabiaPaineis.length > 0) {
-<div>
-=======
 <div class="container">
   <!-- Mensagem de carregamento -->
   @if (loading) {
@@ -52,27 +46,11 @@
 
   <!-- Lista completa de painéis (sem filtro) -->
   @else if (sabiaPaineis.length > 0) {
->>>>>>> Stashed changes
   <div class="panels-list">
     @for (painel of filteredPaineis; track painel.id) {
     <div class="panel-card">
       <h3>{{ painel.title }}</h3>
 
-<<<<<<< Updated upstream
-
-      <div class="panel-image">
-        @if (painel.image) {
-        <img [src]="
-            'http://localhost:3000/api/files/' +
-            painel.collectionId +
-            '/' +
-            painel.id +
-            '/' +
-            painel.image
-          " alt="{{ painel.title }}" />
-        }
-      </div>
-=======
       <!-- Imagem do painel (opcional) -->
       <!--
           @if (painel.image) {
@@ -84,7 +62,6 @@
             </div>
           }
           -->
->>>>>>> Stashed changes
 
       <p class="panel-description">{{ painel.description }}</p>
 
@@ -118,7 +95,3 @@
   </div>
   }
 </div>
-<<<<<<< Updated upstream
-}
-=======
->>>>>>> Stashed changes

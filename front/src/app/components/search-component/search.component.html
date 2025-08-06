@@ -3,7 +3,7 @@
     class="input"
     type="text"
     [(ngModel)]="searchTerm"
-    (input)="onSearch()"
+    (ngModelChange)="onSearch()"
     placeholder="Buscar painéis..."
   />
 </div>
