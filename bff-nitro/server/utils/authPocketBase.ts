@@ -1,31 +1,16 @@
-import PocketBase from "pocketbase";
-import { useRuntimeConfig } from "nitropack/runtime";
+import { getPocketBaseInstance } from "./pocketBaseInstance";
 
-let pbInstance = null as PocketBase | null;
-// Variável para armazenar a instância do PocketBase
-// e evitar múltiplas autenticações desnecessárias.
 let authPromise = null as Promise<void> | null;
 
-export async function getPocketBaseInstance() {
-  const config = useRuntimeConfig(); // Acessa o runtimeConfig globalmente
+export async function authPocketBase() {
+  const config = useRuntimeConfig();
 
-  const pocketbaseUrl = config.pocketBaseUrl;
   const pocketBaseEmail = config.pocketBaseEmail;
   const pocketBasePassword = config.pocketBasePassword;
 
-  if (!pocketbaseUrl || !pocketBaseEmail || !pocketBasePassword) {
-    console.error(
-      "Erro: Variáveis de ambiente do PocketBase não configuradas corretamente."
-    );
-    throw new Error("Configuração do PocketBase incompleta no servidor.");
-  }
-  if (!pbInstance) {
-    pbInstance = new PocketBase(pocketbaseUrl);
-    console.log(`PocketBase: Nova instância criada para ${pocketbaseUrl}`);
-  }
-
+  const pbInstance = await getPocketBaseInstance();
   if (!pbInstance.authStore.isValid || pbInstance.authStore.token === "") {
-    if (authPromise === null) {
+    if (pbInstance === null) {
       console.log("PocketBase: Iniciando autenticação...");
       authPromise = pbInstance
         .collection("_superusers")
@@ -47,4 +32,5 @@ export async function getPocketBaseInstance() {
   }
 
   return pbInstance;
+    
 }
