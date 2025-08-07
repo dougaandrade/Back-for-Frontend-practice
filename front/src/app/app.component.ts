@@ -30,10 +30,12 @@ export class AppComponent {
   }
 
   showAllPanels() {
+    this.filteredPaineis = [];
     this.showingInternetPanels = false;
   }
 
   showInternetPanels() {
+    this.filteredPaineis = [];
     this.showingInternetPanels = true;
   }
 

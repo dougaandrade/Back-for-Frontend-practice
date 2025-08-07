@@ -35,7 +35,7 @@ export class CardComponent implements OnChanges {
 
   constructor() {
     this.$triggerTime.pipe(debounceTime(300)).subscribe((onlyInternet) => {
-      this.loadPanels(onlyInternet);
+      this.loadPanels(onlyInternet || undefined);
     });
   }
 
@@ -45,10 +45,8 @@ export class CardComponent implements OnChanges {
       this.$triggerTime.next(this.showinginternetpanels);
     }
   }
-  loadPanels(onlyInternet?: boolean): void {
-    this.errorMessage = '';
-    this.loading = true;
 
+  loadPanels(onlyInternet?: boolean): void {
     this.dataService
       .getSabiaPaineis(onlyInternet)
       .pipe(finalize(() => (this.loading = false)))
