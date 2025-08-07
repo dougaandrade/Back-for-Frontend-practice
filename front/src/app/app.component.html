@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <div class="container">
   <card-search (search)="onSearchResult($event)" />
-  <card-button />
+  <card-button
+    (showAll)="showAllPanels()"
+    (showInternet)="showInternetPanels()"
+    (toggle)="showingInternetPanels = $event"
+  ></card-button>
+
   <card-component
     (panelsLoaded)="painelLoader($event)"
     [filteredPaineis]="filteredPaineis"
